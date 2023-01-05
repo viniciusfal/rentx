@@ -25,10 +25,9 @@ class CategoriesRepository implements ICategoriesRepository {
     return CategoriesRepository.INSTANCE;
   }
 
-  public create({ name, description }: IcreateCategoryDTO): void {
+  public create({ name, description }: IcreateCategoryDTO): Category {
     const category = new Category();
 
-    // funciona como um setter para o Javascript.
     Object.assign(category, {
       name,
       description,
@@ -36,6 +35,8 @@ class CategoriesRepository implements ICategoriesRepository {
     });
 
     this.categories.push(category);
+
+    return category;
   }
 
   public list(): Category[] {

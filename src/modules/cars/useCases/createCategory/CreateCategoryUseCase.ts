@@ -19,7 +19,9 @@ class CreateCategoryUseCase {
       throw new Error('This category already Exists');
     }
 
-    this.categoriesRepository.create({ name, description });
+    const category = this.categoriesRepository.create({ name, description });
+
+    return category;
   }
 }
 

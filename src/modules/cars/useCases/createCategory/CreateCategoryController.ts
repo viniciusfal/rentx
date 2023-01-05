@@ -11,9 +11,9 @@ class CreateCategoryController {
   public handle(request: Request, response: Response) {
     const { name, description } = request.body;
 
-    this.createCategoryUseCase.execute({ name, description });
+    const category = this.createCategoryUseCase.execute({ name, description });
 
-    return response.status(201).json();
+    return response.status(201).json(category);
   }
 }
 
