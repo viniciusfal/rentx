@@ -3,7 +3,7 @@
  * Agora posso trocar meu banco de dados ou minha forma de armazenagem de dados
   de uma forma bem mais prática
  */
-import Category from '../model/Category';
+import Category from '../entities/Category';
 
 export interface IcreateCategoryDTO {
   name: string;
@@ -11,7 +11,7 @@ export interface IcreateCategoryDTO {
 }
 
 export interface ICategoriesRepository {
-  create({ name, description }: IcreateCategoryDTO): void;
-  list(): Category[];
-  findByName(name: string): Category;
+  create({ name, description }: IcreateCategoryDTO): Promise<Category>;
+  list(): Promise<Category[]>;
+  findByName(name: string): Promise<Category>;
 }

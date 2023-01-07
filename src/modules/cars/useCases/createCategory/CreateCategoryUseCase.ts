@@ -1,3 +1,4 @@
+import Category from '../../entities/Category';
 import CategoriesRepository from '../../repositories/implementations/CategoriesRepository';
 
 interface IRequest {
@@ -12,14 +13,19 @@ class CreateCategoryUseCase {
     this.categoriesRepository = categoriesRepository;
   }
 
-  public execute({ name, description }: IRequest) {
-    const categoryAlreadyExists = this.categoriesRepository.findByName(name);
+  public async execute({ name, description }: IRequest): Promise<Category> {
+    const categoryAlreadyExists = await this.categoriesRepository.findByName(
+      name,
+    );
 
     if (categoryAlreadyExists) {
       throw new Error('This category already Exists');
     }
 
-    const category = this.categoriesRepository.create({ name, description });
+    const category = this.categoriesRepository.create({
+      name,
+      description,
+    });
 
     return category;
   }

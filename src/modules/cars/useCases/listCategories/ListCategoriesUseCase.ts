@@ -1,4 +1,4 @@
-import Category from '../../model/Category';
+import Category from '../../entities/Category';
 import CategoriesRepository from '../../repositories/implementations/CategoriesRepository';
 
 class ListCategoriesUseCase {
@@ -8,8 +8,8 @@ class ListCategoriesUseCase {
     this.categoriesRepository = categoriesRepository;
   }
 
-  public execute(): Category[] {
-    const categories = this.categoriesRepository.list();
+  public async execute(): Promise<Category[]> {
+    const categories = await this.categoriesRepository.list();
 
     return categories;
   }

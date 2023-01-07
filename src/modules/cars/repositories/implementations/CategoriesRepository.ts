@@ -1,54 +1,47 @@
-import Category from '../../model/Category';
+import { Repository } from 'typeorm';
+import datasource from '../../../../database/index';
+import Category from '../../entities/Category';
 import {
   ICategoriesRepository,
   IcreateCategoryDTO,
 } from '../ICategoriesRepository';
 
 class CategoriesRepository implements ICategoriesRepository {
-  private categories: Category[];
+  private repository: Repository<Category>;
 
-  private static INSTANCE: CategoriesRepository;
-
-  private constructor() {
-    this.categories = [];
+  public constructor() {
+    this.repository = datasource.getRepository(Category);
   }
 
   /**
    * O  Static permite que o metodo seja chamado sem instanciar um new Object
    *
    */
-  public static getInstance(): CategoriesRepository {
-    // Se for false (null ou undefined)
-    if (!CategoriesRepository.INSTANCE) {
-      CategoriesRepository.INSTANCE = new CategoriesRepository();
-    }
-    return CategoriesRepository.INSTANCE;
-  }
 
-  public create({ name, description }: IcreateCategoryDTO): Category {
-    const category = new Category();
-
-    Object.assign(category, {
+  public async create({
+    name,
+    description,
+  }: IcreateCategoryDTO): Promise<Category> {
+    const category = this.repository.create({
       name,
       description,
-      createdAt: new Date(),
     });
 
-    this.categories.push(category);
+    await this.repository.save(category);
 
     return category;
   }
 
-  public list(): Category[] {
-    return this.categories;
+  public async list(): Promise<Category[]> {
+    const categories = await this.repository.find();
+
+    return categories;
   }
 
-  public findByName(name: string): Category {
-    const categoryByName = this.categories.find(
-      category => category.name === name,
-    );
+  public async findByName(name: string): Promise<Category> {
+    const category = await this.repository.findOneBy({ name });
 
-    return categoryByName;
+    return category;
   }
 }
 
