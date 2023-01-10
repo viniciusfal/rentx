@@ -13,7 +13,6 @@ class Category {
   description: string;
 
   @CreateDateColumn()
-  // eslint-disable-next-line camelcase
   created_at: Date;
 
   constructor() {

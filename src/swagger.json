@@ -73,6 +73,70 @@
 
         }
       }
+    },
+    "/categories/import": {
+      "post": {
+        "tags": ["Category"],
+        "summary": "Upload a new Category",
+        "description": "Upload a new Category, with a file on format .csv",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+
+      }
+    },
+    "/specfications": {
+      "post": {
+      "tags": ["Specification"],
+      "summary": "Create Specifications",
+      "description": "Create a new(s) Specification  ",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "name": "Pneus p/ Chuva",
+                "description": "Pneus ideais para chuvas"
+              }
+          }
+        }
+      }
+    },
+    "responses": {
+      "201": {
+        "description": "Created"
+      },
+      "500": {
+        "description": "This Specification already Exists or Is not exists"
+      }
     }
   }
+}
+}
 }

@@ -1,8 +1,13 @@
-import CategoriesRepository from '../../repositories/implementations/CategoriesRepository';
+import { inject, injectable } from 'tsyringe';
+import { CategoriesRepository } from '../../repositories/implementations/CategoriesRepository';
 import { loadCategories } from '../../utils/loadCategories';
 
+@injectable()
 class ImportCategoryUseCase {
-  constructor(private categoriesRepository: CategoriesRepository) {}
+  constructor(
+    @inject('CategoriesRepository')
+    private categoriesRepository: CategoriesRepository,
+  ) {}
 
   public async execute(file: Express.Multer.File): Promise<void> {
     const categories = await loadCategories(file);
@@ -10,7 +15,7 @@ class ImportCategoryUseCase {
     categories.map(async category => {
       const { name, description } = category;
 
-      const categoryExists = this.categoriesRepository.findByName(name);
+      const categoryExists = await this.categoriesRepository.findByName(name);
 
       if (!categoryExists) {
         this.categoriesRepository.create({ name, description });

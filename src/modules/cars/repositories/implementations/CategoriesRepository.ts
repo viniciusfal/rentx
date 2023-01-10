@@ -1,4 +1,5 @@
 import { Repository } from 'typeorm';
+
 import datasource from '../../../../database/index';
 import Category from '../../entities/Category';
 import {
@@ -45,4 +46,4 @@ class CategoriesRepository implements ICategoriesRepository {
   }
 }
 
-export default CategoriesRepository;
+export { CategoriesRepository };
