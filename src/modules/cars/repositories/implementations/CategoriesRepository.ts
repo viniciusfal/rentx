@@ -14,11 +14,6 @@ class CategoriesRepository implements ICategoriesRepository {
     this.repository = datasource.getRepository(Category);
   }
 
-  /**
-   * O  Static permite que o metodo seja chamado sem instanciar um new Object
-   *
-   */
-
   public async create({
     name,
     description,

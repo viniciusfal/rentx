@@ -25,7 +25,7 @@ class CreateSpecificationUseCase {
       throw new Error('This Specification already Exists');
     }
 
-    const specification = await this.specificationsRepository.create({
+    const specification = this.specificationsRepository.create({
       name,
       description,
     });
