@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
+import { AppError } from '../errors/AppError';
 import { UsersRepository } from '../modules/accounts/repositories/implementations/UsersRepository';
 
 interface Payload {
@@ -14,7 +15,7 @@ export async function ensureAuthenticate(
   const authHeader = request.headers.authorization;
 
   if (!authHeader) {
-    throw new Error('Token Missing');
+    throw new AppError('Token Missing', 401);
   }
 
   // Dividir /Separar, a palavra Barrer do token, e pegarmos o token
@@ -32,11 +33,11 @@ export async function ensureAuthenticate(
     const user = await usersRepository.findById(user_id);
 
     if (!user) {
-      throw new Error('This user does not exists');
+      throw new AppError('This user does not exists', 401);
     }
 
     next();
   } catch (err) {
-    throw new Error('Token Invalid');
+    throw new AppError('Token Invalid', 401);
   }
 }

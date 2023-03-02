@@ -1,4 +1,5 @@
 import { inject, injectable } from 'tsyringe';
+import { AppError } from '../../../../errors/AppError';
 
 import Category from '../../entities/Category';
 import { CategoriesRepository } from '../../repositories/implementations/CategoriesRepository';
@@ -20,7 +21,7 @@ class CreateCategoryUseCase {
     );
 
     if (categoryAlreadyExists) {
-      throw new Error('This category already Exists');
+      throw new AppError('This category already Exists');
     }
 
     const category = this.categoriesRepository.create({
